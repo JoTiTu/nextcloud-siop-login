@@ -3,6 +3,7 @@ version: "3"
 services:
   nextcloud:
     build: .
+    platform: linux/amd64
     ports:
       - 127.0.0.1:80:80
     user: 1000:1000
@@ -16,13 +17,4 @@ services:
       - "$PWD/docker/data:/var/www/html/data"
       - "$PWD/docker/apps:/var/www/html/custom_apps"
       - "$PWD:/var/www/html/custom_apps/ssi_login"
-  
-  verification-service:
-    image: verification-service
-    ports:
-      - 3000:3000
-    environment:
-      - PORT=3000
-      - BEARER_TOKEN_SECRET=sdzaZdlsOD50VuI8XwIFF8JaEq4gID
-      - LOG_LEVEL=trace
       

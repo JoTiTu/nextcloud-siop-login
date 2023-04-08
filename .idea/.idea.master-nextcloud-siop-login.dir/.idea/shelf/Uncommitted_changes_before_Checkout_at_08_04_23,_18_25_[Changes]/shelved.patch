@@ -1,0 +1,35 @@
+Index: docker/docker-compose.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3\"\n\nservices:\n  nextcloud:\n    build: .\n    ports:\n      - 127.0.0.1:80:80\n    user: 1000:1000\n    environment:\n      - PORT=80\n    sysctls:\n        - \"kernel.msgmnb=65536\"\n        - \"kernel.msgmax=65536\"\n    volumes:\n      - \"$PWD/docker/config:/var/www/html/config\"\n      - \"$PWD/docker/data:/var/www/html/data\"\n      - \"$PWD/docker/apps:/var/www/html/custom_apps\"\n      - \"$PWD:/var/www/html/custom_apps/ssi_login\"\n  \n  verification-service:\n    image: verification-service\n    ports:\n      - 3000:3000\n    environment:\n      - PORT=3000\n      - BEARER_TOKEN_SECRET=sdzaZdlsOD50VuI8XwIFF8JaEq4gID\n      - LOG_LEVEL=trace\n      
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/docker/docker-compose.yml b/docker/docker-compose.yml
+--- a/docker/docker-compose.yml	
++++ b/docker/docker-compose.yml	
+@@ -2,6 +2,7 @@
+ 
+ services:
+   nextcloud:
++    platform: linux/amd64
+     build: .
+     ports:
+       - 127.0.0.1:80:80
+@@ -16,13 +17,4 @@
+       - "$PWD/docker/data:/var/www/html/data"
+       - "$PWD/docker/apps:/var/www/html/custom_apps"
+       - "$PWD:/var/www/html/custom_apps/ssi_login"
+-  
+-  verification-service:
+-    image: verification-service
+-    ports:
+-      - 3000:3000
+-    environment:
+-      - PORT=3000
+-      - BEARER_TOKEN_SECRET=sdzaZdlsOD50VuI8XwIFF8JaEq4gID
+-      - LOG_LEVEL=trace
+-      
+\ No newline at end of file
++      - "$PWD/docker/multi-cred.config.php:/var/www/html/config/multi-cred.config.php"
+\ No newline at end of file
